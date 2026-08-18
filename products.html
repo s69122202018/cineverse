@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineVerse - ค้นหาและกรองภาพยนตร์</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    .filter-box {
+      background: var(--card-bg);
+      border: 1px solid rgba(157, 78, 221, 0.4);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 15px rgba(157, 78, 221, 0.15);
+    }
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+    .filter-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    select, input[type="text"] {
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid var(--neon-purple);
+      background: #12101a;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .math-info {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      background: rgba(157, 78, 221, 0.15);
+      border-left: 3px solid var(--neon-glow);
+      border-radius: 4px;
+      font-size: 0.9rem;
+      color: #d1b3ff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">Cine<span>Verse</span></a>
+    <nav>
+      <a href="index.html">หน้าแรก</a>
+      <a href="products.html" class="active">ค้นหาภาพยนตร์</a>
+      <a href="checkout.html">Watchlist & จองตั๋ว</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1 style="margin-bottom: 1.5rem; text-shadow: 0 0 10px var(--neon-glow);">🎬 ค้นหาและกรองภาพยนตร์</h1>
+
+    <!-- กล่องตัวกรองแบบ Set Operations -->
+    <div class="filter-box">
+      <h3 style="color: var(--neon-glow);">ตัวกรองด้วยแนวคิด Set Operations</h3>
+      <div class="filter-grid">
+        <div class="filter-item">
+          <label>ค้นหาชื่อภาพยนตร์:</label>
+          <input type="text" id="searchInput" placeholder="พิมพ์ชื่อภาพยนตร์...">
+        </div>
+        <div class="filter-item">
+          <label>เซต A (หมวดหมู่หลัก):</label>
+          <select id="setASelect">
+            <option value="ALL">ทุกหมวดหมู่ (Universe U)</option>
+            <option value="Sci-Fi">Sci-Fi</option>
+            <option value="Action">Action</option>
+            <option value="Horror">Horror</option>
+            <option value="Drama">Drama</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label>การดำเนินการ (Operation):</label>
+          <select id="operationSelect">
+            <option value="NONE">ไม่ใช้ตัวดำเนินการ</option>
+            <option value="INTERSECTION">Intersection (A ∩ B) - มีทั้งคู่</option>
+            <option value="UNION">Union (A ∪ B) - มีอย่างใดอย่างหนึ่ง</option>
+            <option value="DIFFERENCE">Difference (A - B) - มี A แต่ไม่มี B</option>
+          </select>
+        </div>
+        <div class="filter-item">
+          <label>เซต B (หมวดหมู่รอง):</label>
+          <select id="setBSelect" disabled>
+            <option value="ALL">เลือกหมวดหมู่ B</option>
+            <option value="Sci-Fi">Sci-Fi</option>
+            <option value="Action">Action</option>
+            <option value="Horror">Horror</option>
+            <option value="Drama">Drama</option>
+          </select>
+        </div>
+      </div>
+      <div id="mathExplanation" class="math-info">
+        สูตรการกรองปัจจุบัน: $U$ (แสดงรายการภาพยนตร์ทั้งหมด)
+      </div>
+    </div>
+
+    <!-- รายการภาพยนตร์หลังกรอง -->
+    <div id="movieCount" style="color: var(--text-sub); margin-bottom: 1rem;"></div>
+    <div id="moviesContainer" class="movie-grid">
+      <!-- Render ผ่าน JS -->
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 CineVerse. โครงงานการพัฒนาเว็บไซต์ด้วยแนวคิดคณิตศาสตร์ดิสครีต</p>
+  </footer>
+
+  <script src="common.js"></script>
+  <script src="products.js"></script>
+</body>
+</html>

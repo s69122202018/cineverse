@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineVerse - รายการโปรด & คำนวณโปรโมชั่น</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 768px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid rgba(157, 78, 221, 0.4);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(157, 78, 221, 0.15);
+    }
+    .watchlist-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(157, 78, 221, 0.2);
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      color: #fff !important;
+      font-size: 0.95rem !important;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid var(--neon-purple);
+      background: #12101a;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.6rem 0;
+      font-size: 1rem;
+    }
+    .total-row {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--neon-glow);
+      border-top: 1px solid var(--neon-purple);
+      padding-top: 0.8rem;
+      margin-top: 0.8rem;
+    }
+    .logic-box {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      background: rgba(157, 78, 221, 0.15);
+      border-left: 3px solid var(--accent-pink);
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: #e0b0ff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">Cine<span>Verse</span></a>
+    <nav>
+      <a href="index.html">หน้าแรก</a>
+      <a href="products.html">ค้นหาภาพยนตร์</a>
+      <a href="checkout.html" class="active">Watchlist & จองตั๋ว</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1 style="margin-bottom: 1.5rem; text-shadow: 0 0 10px var(--neon-glow);">🎟️ สรุปรายการภาพยนตร์ & จองตั๋ว</h1>
+
+    <div class="checkout-layout">
+      <!-- ฝั่งซ้าย: Watchlist + ภาพยนตร์แนะนำเพิ่มเติม (Set Difference) -->
+      <div>
+        <div class="panel" style="margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3>รายการภาพยนตร์ที่เลือกไว้ (Watchlist)</h3>
+            <button onclick="clearWatchlist()" style="background: transparent; border: 1px solid var(--accent-pink); color: var(--accent-pink); padding: 0.3rem 0.6rem; border-radius: 6px; cursor: pointer;">ล้างทั้งหมด</button>
+          </div>
+          <div id="watchlistContainer"></div>
+        </div>
+
+        <!-- Discrete Math: Set Difference -->
+        <div class="panel">
+          <h3 style="color: var(--neon-glow); margin-bottom: 0.5rem;">ภาพยนตร์ที่คุณอาจสนใจเพิ่มเติม</h3>
+          <p style="font-size: 0.85rem; color: var(--text-sub); margin-bottom: 1rem;">
+            (ประมวลผลด้วย Set Difference: $U - \text{Watchlist}$)
+          </p>
+          <div id="recommendedContainer" class="movie-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));"></div>
+        </div>
+      </div>
+
+      <!-- ฝั่งขวา: คำนวณส่วนลดด้วย Boolean Logic / If-Else -->
+      <div>
+        <div class="panel">
+          <h3 style="margin-bottom: 1.2rem; color: var(--neon-glow);">คำนวณโปรโมชั่น (Boolean Logic)</h3>
+
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="studentCheck" onchange="calculateTotal()">
+              เป็นนักเรียน / นักศึกษา (Student)
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="wednesdayCheck" onchange="calculateTotal()">
+              รับชมวันพุธ (Movie Wednesday)
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="vipCheck" onchange="calculateTotal()">
+              สมาชิก CineVerse VIP
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>โค้ดส่วนลดโปรโมชั่น:</label>
+            <input type="text" id="couponCode" placeholder="พิมพ์ CINE2026" oninput="calculateTotal()">
+          </div>
+
+          <hr style="border: none; border-top: 1px solid rgba(157, 78, 221, 0.3); margin: 1rem 0;">
+
+          <!-- สรุปยอดเงิน -->
+          <div class="summary-row">
+            <span>ยอดรวมภาพยนตร์:</span>
+            <span id="subtotalDisplay">0 บาท</span>
+          </div>
+          <div class="summary-row" style="color: var(--accent-pink);">
+            <span>ส่วนลดที่ได้รับ:</span>
+            <span id="discountDisplay">-0 บาท</span>
+          </div>
+          <div class="summary-row total-row">
+            <span>ยอดสุทธิที่ต้องชำระ:</span>
+            <span id="finalTotalDisplay">0 บาท</span>
+          </div>
+
+          <!-- กล่องอธิบายตรรกะทางคณิตศาสตร์ -->
+          <div id="logicExplanation" class="logic-box">
+            ตรรกะที่ใช้งาน: ยังไม่มีเงื่อนไขโปรโมชั่นที่ตรงกัน
+          </div>
+
+          <button class="btn" style="width: 100%; margin-top: 1.2rem; padding: 0.8rem;" onclick="confirmOrder()">ยืนยันการทำรายการ</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2026 CineVerse. โครงงานการพัฒนาเว็บไซต์ด้วยแนวคิดคณิตศาสตร์ดิสครีต</p>
+  </footer>
+
+  <script src="common.js"></script>
+  <script src="checkout.js"></script>
+</body>
+</html>

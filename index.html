@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CineVerse - ค้นพบภาพยนตร์ที่คุณชื่นชอบ</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    .hero {
+      background: linear-gradient(180deg, rgba(31, 27, 46, 0.9), var(--bg-color)), url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1200&auto=format&fit=crop&q=80') center/cover;
+      padding: 4rem 2rem;
+      border-radius: 16px;
+      text-align: center;
+      margin-bottom: 3rem;
+      border: 1px solid rgba(157, 78, 221, 0.4);
+      box-shadow: 0 0 25px rgba(157, 78, 221, 0.2);
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 15px var(--neon-glow);
+    }
+    .hero p {
+      color: var(--text-sub);
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+    .category-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+    .cat-badge {
+      background: var(--card-bg);
+      border: 1px solid var(--neon-purple);
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      color: #fff;
+      font-size: 0.95rem;
+      box-shadow: 0 0 10px rgba(157, 78, 221, 0.2);
+    }
+    .section-title {
+      font-size: 1.6rem;
+      border-left: 4px solid var(--neon-purple);
+      padding-left: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="logo">Cine<span>Verse</span></a>
+    <nav>
+      <a href="index.html" class="active">หน้าแรก</a>
+      <a href="products.html">ค้นหาภาพยนตร์</a>
+      <a href="checkout.html">Watchlist & จองตั๋ว</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- Hero Banner -->
+    <section class="hero">
+      <h1>เลือกภาพยนตร์ที่ใช่ในแบบของคุณ</h1>
+      <p>รวมสุดยอดภาพยนตร์ ไซไฟ แอ็กชัน ดราม่า พร้อมระบบแนะนำอัจฉริยะ</p>
+      <a href="products.html" class="btn" style="text-decoration: none; display: inline-block;">สำรวจภาพยนตร์ทั้งหมด</a>
+    </section>
+
+    <!-- Discrete Math: Set of Categories -->
+    <section>
+      <h2 class="section-title">หมวดหมู่ทั้งหมด (สกัดด้วย Set Theory)</h2>
+      <div id="categoryList" class="category-container">
+        <!-- Render ผ่าน JS จาก new Set() -->
+      </div>
+    </section>
+
+    <!-- หนังแนะนำเด่น -->
+    <section>
+      <h2 class="section-title">ภาพยนตร์ยอดนิยมประจำสัปดาห์</h2>
+      <div id="featuredMovies" class="movie-grid">
+        <!-- Render ผ่าน JS -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 CineVerse. โครงงานการพัฒนาเว็บไซต์ด้วยแนวคิดคณิตศาสตร์ดิสครีต</p>
+  </footer>
+
+  <script src="common.js"></script>
+  <script src="home.js"></script>
+</body>
+</html>
